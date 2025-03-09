@@ -6,7 +6,7 @@ vim.opt.number = true               -- Show line numbers
 -- vim.opt.shiftwidth = 4              -- Set indentation width to 4 spaces
 vim.opt.smartindent = true          -- Enable smart indentation
 vim.opt.termguicolors = true        -- Enable true colors
-vim.opt.wrap = false                -- Disable line wrapping
+vim.opt.wrap = true -- Enable line wrapping
 vim.opt.clipboard = "unnamedplus"   -- Use system clipboard
 vim.opt.cursorline = true           -- Highlight the current line
 
@@ -60,7 +60,16 @@ require("oil").setup({
     ["q"] = "actions.close",  -- Quit oil.nvim with 'q'
     ["<CR>"] = "actions.select",  -- Open file
     ["-"] = "actions.parent",  -- Go up one directory
-  },
+    ["t"] = function()
+	local oil = require("oil")
+        local entry = oil.get_cursor_entry()
+          if entry ~= nil then
+	  -- close Oil in current tab
+	  oil.close()
+          -- Open file in new tab
+          vim.cmd.tabnew(entry.name)
+          end
+        end,  },
   })
 vim.keymap.set("n", "<leader>e", ":Oil<CR>", { silent = true }) -- Open file manager
 
@@ -86,5 +95,21 @@ cmp.setup({
   sources = { { name = "nvim_lsp" } },
 })
 
+-- setting file name and parent as the warp tab name 
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    local filepath = vim.fn.expand("%:p") -- Get full file path
+    if filepath == "" then
+      vim.o.titlestring = "nvim - [No Name]"
+      return
+    end
+
+    local filename = vim.fn.fnamemodify(filepath, ":t") -- Get only filename
+    local parent = vim.fn.fnamemodify(filepath, ":h:t") -- Get parent folder
+
+    vim.cmd("set title") -- Enable title setting
+    vim.o.titlestring =  parent .. "/" .. filename
+  end,
+})
 print("Neovim basic config loaded!")
 
