@@ -16,9 +16,12 @@ vim.keymap.set("n", "<leader>w", ":w<CR>", { silent = true }) -- Save file
 vim.keymap.set("n", "<leader>q", ":q<CR>", { silent = true }) -- Quit file
 vim.keymap.set("n", "gr", vim.lsp.buf.references, { silent = true })
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true }) -- exit insert mode
+vim.keymap.set("t", "<C-w>", [[<C-\><C-n>:ToggleTerm<CR>]], { silent = true })
 -- tab navigation shortcuts
 vim.keymap.set('n', '<leader>j', ':tabprevious<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>k', ':tabnext<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>tt", ":ToggleTerm<CR>", { silent = true }) -- terminal mapping
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]]) -- exit terminal mode
 
 -- Install lazy.nvim plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -36,24 +39,14 @@ require("lazy").setup({
 	{ "folke/tokyonight.nvim", lazy = false, priority = 1000 },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, -- Syntax highlighting
   { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- Fuzzy finder
-   { "nvim-tree/nvim-tree.lua", -- File tree explorer
-    dependencies = {
-      "nvim-tree/nvim-web-devicons", -- Optional icons
-    },
-    config = function()
-      require("nvim-tree").setup({
-        view = { width = 30, side = "left" },
-        renderer = { group_empty = true },
-        filters = { dotfiles = false },
-      })
-    end
-  },
+  { "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" },},
   { "nvim-lualine/lualine.nvim" }, -- Status line
   { "tpope/vim-commentary" }, -- Comment toggle
   { "neovim/nvim-lspconfig" }, -- LSP support
   { "hrsh7th/nvim-cmp", dependencies = { "hrsh7th/cmp-nvim-lsp" } }, -- Autocomplete
   { "L3MON4D3/LuaSnip" }, -- Snippet support
   { "stevearc/oil.nvim" }, -- file explorer
+  { "akinsho/toggleterm.nvim", version = "*" },
   -- { "catppuccin/nvim", as = "catppuccin" },
 })
 
@@ -113,6 +106,20 @@ cmp.setup({
     ["<CR>"] = cmp.mapping.confirm({ select = true }),
   },
   sources = { { name = "nvim_lsp" } },
+})
+
+-- ToggleTerm configuration
+require("toggleterm").setup({
+  direction = "horizontal",  -- Open at the bottom like VSCode
+  size = 15,                 -- Terminal height
+  open_mapping = [[<C-\>]],  -- Key to open terminal
+})
+
+-- nvim-tree setup
+require("nvim-tree").setup({
+  view = { width = 30, side = "left" },
+  renderer = { group_empty = true },
+  filters = { dotfiles = false },
 })
 
 -- NvimTree keymap: open file in new tab with 't'
