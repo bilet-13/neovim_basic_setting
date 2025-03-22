@@ -1,6 +1,6 @@
 -- Basic Neovim Settings
 vim.opt.number = true               -- Show line numbers
--- vim.opt.relativenumber = true       -- Show relative line numbers
+vim.opt.relativenumber = true       -- Show relative line numbers
 -- vim.opt.expandtab = true            -- Use spaces instead of tabs
 -- vim.opt.tabstop = 4                 -- Set tab width to 4 spaces
 -- vim.opt.shiftwidth = 4              -- Set indentation width to 4 spaces
@@ -15,7 +15,7 @@ vim.g.mapleader = " "               -- Set leader key to Space
 vim.keymap.set("n", "<leader>w", ":w<CR>", { silent = true }) -- Save file
 vim.keymap.set("n", "<leader>q", ":q<CR>", { silent = true }) -- Quit file
 vim.keymap.set("n", "gr", vim.lsp.buf.references, { silent = true })
-vim.keymap.set("i", "jk", "<Esc>", { noremap = true }) -- exit
+vim.keymap.set("i", "jk", "<Esc>", { noremap = true }) -- exit insert mode
 -- tab navigation shortcuts
 vim.keymap.set('n', '<leader>j', ':tabprevious<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>k', ':tabnext<CR>', { noremap = true, silent = true })
@@ -101,7 +101,7 @@ vim.keymap.set('n', '<leader>o', ':NvimTreeToggle<CR>', { silent = true })
 -- LSP Configuration
 local lspconfig = require("lspconfig")
 lspconfig.pyright.setup {}  -- Python LSP
-lspconfig.ts_ls.setup {} -- js
+-- lspconfig.ts_ls.setup {} -- js
 lspconfig.clangd.setup {}   -- C/C++ LSP
 
 -- Autocomplete Configuration
