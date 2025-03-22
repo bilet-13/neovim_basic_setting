@@ -12,14 +12,16 @@ vim.opt.cursorline = true           -- Highlight the current line
 
 -- Keybindings
 vim.g.mapleader = " "               -- Set leader key to Space
-vim.keymap.set("n", "<leader>w", ":w<CR>", { silent = true }) -- Save file
 vim.keymap.set("n", "<leader>q", ":q<CR>", { silent = true }) -- Quit file
+vim.keymap.set("n", "<leader>s", ":w<CR>", { silent = true, desc = "Save file" })
+vim.keymap.set("n", "<leader>w", ":wq<CR>", { silent = true, desc = "Save and quit" })
 vim.keymap.set("n", "gr", vim.lsp.buf.references, { silent = true })
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true }) -- exit insert mode
 vim.keymap.set("t", "<C-w>", [[<C-\><C-n>:ToggleTerm<CR>]], { silent = true })
 -- tab navigation shortcuts
 vim.keymap.set('n', '<leader>j', ':tabprevious<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>k', ':tabnext<CR>', { noremap = true, silent = true })
+
 vim.keymap.set("n", "<leader>tt", ":ToggleTerm<CR>", { silent = true }) -- terminal mapping
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]]) -- exit terminal mode
 
@@ -113,6 +115,7 @@ require("toggleterm").setup({
   direction = "horizontal",  -- Open at the bottom like VSCode
   size = 15,                 -- Terminal height
   open_mapping = [[<C-\>]],  -- Key to open terminal
+  start_in_insert = true,
 })
 
 -- nvim-tree setup
