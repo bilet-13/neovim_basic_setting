@@ -48,9 +48,13 @@ require("lazy").setup({
   { "neovim/nvim-lspconfig" }, -- LSP support
   { "hrsh7th/nvim-cmp", dependencies = { "hrsh7th/cmp-nvim-lsp" } }, -- Autocomplete
   { "L3MON4D3/LuaSnip" }, -- Snippet support
-  { "stevearc/oil.nvim" }, -- file explorer
-  { "akinsho/toggleterm.nvim", version = "*" },
-  -- { "catppuccin/nvim", as = "catppuccin" },
+  {
+  "akinsho/toggleterm.nvim",
+  version = "*",
+  cmd = { "ToggleTerm" },
+  keys = { "<leader>t", "<leader>gg" },
+  config = setup_toggleterm,
+  }  -- { "catppuccin/nvim", as = "catppuccin" },
 })
 
 -- theme
@@ -66,27 +70,6 @@ require("nvim-treesitter.configs").setup {
 
 -- Lualine Configuration
 require("lualine").setup()
-
--- oil.nvim Configuration
-require("oil").setup({
-  default_file_explorer = true, -- Use Oil.nvim instead of netrw
-  columns = { "icon" }, -- Show file icons
-  keymaps = {
-    ["q"] = "actions.close",  -- Quit oil.nvim with 'q'
-    ["<CR>"] = "actions.select",  -- Open file
-    ["-"] = "actions.parent",  -- Go up one directory
-    ["t"] = function()
-	local oil = require("oil")
-        local entry = oil.get_cursor_entry()
-          if entry ~= nil then
-	  -- close Oil in current tab
-	  oil.close()
-          -- Open file in new tab
-          vim.cmd.tabnew(entry.name)
-          end
-        end,  },
-  })
-vim.keymap.set("n", "<leader>e", ":Oil<CR>", { silent = true }) -- Open file manager
 
 -- Telescope Keybind
 vim.keymap.set("n", "<leader>f", ":Telescope find_files<CR>", { silent = true })
@@ -110,27 +93,35 @@ cmp.setup({
   },
   sources = { { name = "nvim_lsp" } },
 })
--- LazyGit setting and key mapping
-local Terminal = require("toggleterm.terminal").Terminal
 
-local lazygit = Terminal:new({
-  cmd = "env LANG=en_US.UTF-8 lazygit",
-  hidden = true,
-  direction = "float", 
-})
+-- termain setting and LazyGit setting and key mapping
+local function setup_toggleterm()
+  require("toggleterm").setup({
+    direction = "horizontal",
+    size = 12,
+    start_in_insert = true,
+    persist_mode = false,
+  })
 
-vim.keymap.set("n", "<leader>gg", function()
-  lazygit:toggle()
-end, { desc = "Open Lazygit", silent = true })
+  local Terminal = require("toggleterm.terminal").Terminal
+  local lazygit = Terminal:new({
+    cmd = "env LANG=en_US.UTF-8 lazygit",
+    hidden = true,
+    direction = "float",
+  })
 
--- ToggleTerm configuration
-require("toggleterm").setup({
-  direction = "horizontal",  -- Open at the bottom like VSCode
-  size = 12,                 -- Terminal height
-  open_mapping = [[<C-\>]],  -- Key to open terminal
-  start_in_insert = true,
-  persist_mode = false,
-})
+  vim.keymap.set("n", "<leader>t", ":ToggleTerm<CR>", {
+    desc = "Toggle terminal",
+    silent = true,
+  })
+
+  vim.keymap.set("n", "<leader>gg", function()
+    lazygit:toggle()
+  end, {
+    desc = "Open Lazygit",
+    silent = true,
+  })
+end
 
 -- nvim-tree setup
 require("nvim-tree").setup({
