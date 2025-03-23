@@ -69,7 +69,8 @@ To configure Neovim with the provided `init.lua`, follow these steps:
 The `init.lua` configuration enhances Neovim with the following features:
 
 - **Basic Settings**:
-  - `vim.opt.number = true`: Displays line numbers.
+  - `vim.opt.relativenumber = true`: Shows relative line numbers.
+  - `vim.opt.wrap = true`: Enables line wrapping.
   - `vim.opt.smartindent = true`: Enables smart indentation.
   - `vim.opt.termguicolors = true`: Enables true color support.
   - `vim.opt.wrap = false`: Disables line wrapping.
@@ -78,6 +79,13 @@ The `init.lua` configuration enhances Neovim with the following features:
 
 - **Keybindings**:
   - `vim.g.mapleader = " "`: Sets the leader key to Space.
+  - `<leader>s`: Saves the current file.
+  - `<leader>t`: Toggles the terminal.
+  - `<leader>j / <leader>k`: Switch to previous/next tab.
+  - `jk (in insert mode)`: Exits to normal mode.
+  - `<Esc> (in terminal mode)`: Exits terminal mode.
+  - `<C-j> (in terminal mode)`: Closes the terminal.
+  - `t (in NvimTree)`: Opens file in a new tab.
   - `<leader>w`: Saves the current file.
   - `<leader>q`: Quits the current file.
   - `<leader>f`: Opens the file finder using Telescope.
@@ -95,6 +103,7 @@ The `init.lua` configuration enhances Neovim with the following features:
   - **Tab to autocomplete**: Press `Tab` to cycle through autocomplete suggestions.
   - **Aesthetic color theme**: Automatically applies a modern color scheme for better visual experience.
 
+  - **ToggleTerminal** : open horizonal termianl via <leader>t below the nvim, just like vscode 
 ## Contributing
 
 Feel free to submit a **Pull Request (PR)** to improve this configuration,  
