@@ -17,9 +17,6 @@ vim.keymap.set("n", "<leader>s", ":w<CR>", { silent = true, desc = "Save file" }
 vim.keymap.set("n", "<leader>w", ":wq<CR>", { silent = true, desc = "Save and quit" })
 vim.keymap.set("n", "gr", vim.lsp.buf.references, { silent = true })
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true }) -- exit insert mode
-vim.keymap.set("n", "<leader>t", ":ToggleTerm<CR>", { desc = "Toggle terminal", silent = true })
-vim.keymap.set("t", "<C-j>", [[<C-\><C-n>:ToggleTerm<CR>]], { silent = true, desc = "Close terminal with Ctrl-j" })
-vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]]) -- exit terminal mode
 
 -- tab navigation shortcuts
 vim.keymap.set('n', '<leader>j', ':tabprevious<CR>', { noremap = true, silent = true })
@@ -36,6 +33,28 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
+
+-- set up toggleterminal after init to speed up the loading time of neovim
+local function setup_toggleterm()
+  require("toggleterm").setup({
+    direction = "horizontal",
+    size = 12,
+    start_in_insert = true,
+    persist_mode = false,
+  })
+
+  local Terminal = require("toggleterm.terminal").Terminal
+  local lazygit = Terminal:new({
+    cmd = "env LANG=en_US.UTF-8 lazygit",
+    hidden = true,
+    direction = "float",
+  })
+
+  vim.keymap.set("n", "<leader>t", ":ToggleTerm<CR>", { desc = "Toggle terminal", silent = true })
+  vim.keymap.set("n", "<leader>gg", function() lazygit:toggle() end, { desc = "Open Lazygit", silent = true })
+  vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]])
+  vim.keymap.set("t", "<C-j>", [[<C-\><C-n>:ToggleTerm<CR>]], { silent = true, desc = "Close terminal with Ctrl-j" })
+end
 
 -- Plugin Setup
 require("lazy").setup({
@@ -94,35 +113,6 @@ cmp.setup({
   sources = { { name = "nvim_lsp" } },
 })
 
--- termain setting and LazyGit setting and key mapping
-local function setup_toggleterm()
-  require("toggleterm").setup({
-    direction = "horizontal",
-    size = 12,
-    start_in_insert = true,
-    persist_mode = false,
-  })
-
-  local Terminal = require("toggleterm.terminal").Terminal
-  local lazygit = Terminal:new({
-    cmd = "env LANG=en_US.UTF-8 lazygit",
-    hidden = true,
-    direction = "float",
-  })
-
-  vim.keymap.set("n", "<leader>t", ":ToggleTerm<CR>", {
-    desc = "Toggle terminal",
-    silent = true,
-  })
-
-  vim.keymap.set("n", "<leader>gg", function()
-    lazygit:toggle()
-  end, {
-    desc = "Open Lazygit",
-    silent = true,
-  })
-end
-
 -- nvim-tree setup
 require("nvim-tree").setup({
   view = { width = 30, side = "left" },
@@ -147,18 +137,17 @@ vim.api.nvim_create_autocmd("FileType", {
 -- setting file name and parent as the warp tab name 
 vim.api.nvim_create_autocmd("BufEnter", {
   callback = function()
-    local filepath = vim.fn.expand("%:p") -- Get full file path
-    if filepath == "" then
-      vim.o.titlestring = "nvim - [No Name]"
-      return
-    end
+    vim.schedule(function()  -- 🔁 DEFER the logic
+      local filepath = vim.fn.expand("%:p")
+      if filepath == "" then
+        vim.o.titlestring = "nvim - [No Name]"
+        return
+      end
 
-    local filename = vim.fn.fnamemodify(filepath, ":t") -- Get only filename
-    local parent = vim.fn.fnamemodify(filepath, ":h:t") -- Get parent folder
-
-    vim.cmd("set title") -- Enable title setting
-    vim.o.titlestring =  parent .. "/" .. filename
+      local filename = vim.fn.fnamemodify(filepath, ":t")
+      local parent = vim.fn.fnamemodify(filepath, ":h:t")
+      vim.cmd("set title")
+      vim.o.titlestring = parent .. "/" .. filename
+    end)
   end,
 })
-print("Neovim basic config loaded!")
-
