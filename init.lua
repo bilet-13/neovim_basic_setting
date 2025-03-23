@@ -1,5 +1,5 @@
 -- Basic Neovim Settings
-vim.opt.number = true               -- Show line numbers
+--vim.opt.number = true               -- Show line numbers
 vim.opt.relativenumber = true       -- Show relative line numbers
 -- vim.opt.expandtab = true            -- Use spaces instead of tabs
 -- vim.opt.tabstop = 4                 -- Set tab width to 4 spaces
@@ -18,12 +18,13 @@ vim.keymap.set("n", "<leader>w", ":wq<CR>", { silent = true, desc = "Save and qu
 vim.keymap.set("n", "gr", vim.lsp.buf.references, { silent = true })
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true }) -- exit insert mode
 vim.keymap.set("n", "<leader>t", ":ToggleTerm<CR>", { desc = "Toggle terminal", silent = true })
+vim.keymap.set("t", "<C-j>", [[<C-\><C-n>:ToggleTerm<CR>]], { silent = true, desc = "Close terminal with Ctrl-j" })
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]]) -- exit terminal mode
+
 -- tab navigation shortcuts
 vim.keymap.set('n', '<leader>j', ':tabprevious<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>k', ':tabnext<CR>', { noremap = true, silent = true })
-vim.keymap.set("t", "<C-j>", [[<C-\><C-n>:ToggleTerm<CR>]], { silent = true, desc = "Close terminal with Ctrl-j" })
--- vim.keymap.set("n", "<leader>t", ":ToggleTerm<CR>", { silent = true }) -- terminal mapping
-vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]]) -- exit terminal mode
+
 
 -- Install lazy.nvim plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -116,6 +117,7 @@ require("toggleterm").setup({
   size = 12,                 -- Terminal height
   open_mapping = [[<C-\>]],  -- Key to open terminal
   start_in_insert = true,
+  persist_mode = false,
 })
 
 -- nvim-tree setup
