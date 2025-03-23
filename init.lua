@@ -90,7 +90,7 @@ vim.keymap.set("n", "<leader>e", ":Oil<CR>", { silent = true }) -- Open file man
 
 -- Telescope Keybind
 vim.keymap.set("n", "<leader>f", ":Telescope find_files<CR>", { silent = true })
-vim.keymap.set("n", "<leader>g", ":Telescope live_grep<CR>", { silent = true })
+vim.keymap.set("n", "<leader>/", ":Telescope live_grep<CR>", { silent = true })
 vim.keymap.set("n", "<leader>r", ":Telescope lsp_references<CR>", { silent = true })
 vim.keymap.set('n', '<leader>o', ':NvimTreeToggle<CR>', { silent = true })
 
@@ -110,6 +110,18 @@ cmp.setup({
   },
   sources = { { name = "nvim_lsp" } },
 })
+-- LazyGit setting and key mapping
+local Terminal = require("toggleterm.terminal").Terminal
+
+local lazygit = Terminal:new({
+  cmd = "env LANG=en_US.UTF-8 lazygit",
+  hidden = true,
+  direction = "float", 
+})
+
+vim.keymap.set("n", "<leader>gg", function()
+  lazygit:toggle()
+end, { desc = "Open Lazygit", silent = true })
 
 -- ToggleTerm configuration
 require("toggleterm").setup({
