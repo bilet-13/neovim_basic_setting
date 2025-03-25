@@ -9,6 +9,8 @@ vim.opt.termguicolors = true        -- Enable true colors
 vim.opt.wrap = true -- Enable line wrapping
 vim.opt.clipboard = "unnamedplus"   -- Use system clipboard
 vim.opt.cursorline = true           -- Highlight the current line
+vim.o.ignorecase = true   -- ignore case when searching
+vim.o.smartcase = true 
 
 -- Keybindings
 vim.g.mapleader = " "               -- Set leader key to Space
@@ -94,6 +96,7 @@ require("lualine").setup()
 vim.keymap.set("n", "<leader>f", ":Telescope find_files<CR>", { silent = true })
 vim.keymap.set("n", "<leader>/", ":Telescope live_grep<CR>", { silent = true })
 vim.keymap.set("n", "<leader>r", ":Telescope lsp_references<CR>", { silent = true })
+vim.keymap.set("n", "<leader>d", ":Telescope lsp_definitions<CR>", { silent = true })
 vim.keymap.set('n', '<leader>o', ':NvimTreeToggle<CR>', { silent = true })
 
 -- LSP Configuration
