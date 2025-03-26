@@ -1,9 +1,9 @@
 -- Basic Neovim Settings
---vim.opt.number = true               -- Show line numbers
-vim.opt.relativenumber = true       -- Show relative line numbers
 -- vim.opt.expandtab = true            -- Use spaces instead of tabs
 -- vim.opt.tabstop = 4                 -- Set tab width to 4 spaces
 -- vim.opt.shiftwidth = 4              -- Set indentation width to 4 spaces
+vim.opt.relativenumber = true
+vim.opt.number = true
 vim.opt.smartindent = true          -- Enable smart indentation
 vim.opt.termguicolors = true        -- Enable true colors
 vim.opt.wrap = true -- Enable line wrapping
@@ -19,6 +19,14 @@ vim.keymap.set("n", "<leader>s", ":w<CR>", { silent = true, desc = "Save file" }
 vim.keymap.set("n", "<leader>w", ":wq<CR>", { silent = true, desc = "Save and quit" })
 vim.keymap.set("n", "gr", vim.lsp.buf.references, { silent = true })
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true }) -- exit insert mode
+-- Toggle between relative number and absolute number
+vim.keymap.set("n", "<leader>ln", function()
+  if vim.opt.relativenumber:get() then
+    vim.opt.relativenumber = false
+  else
+    vim.opt.relativenumber = true
+  end
+end, { desc = "Toggle line number mode" })
 
 -- tab navigation shortcuts
 vim.keymap.set('n', '<leader>j', ':tabprevious<CR>', { noremap = true, silent = true })
