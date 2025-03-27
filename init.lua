@@ -68,7 +68,7 @@ end
 
 -- Plugin Setup
 require("lazy").setup({
-	{ "folke/tokyonight.nvim", lazy = false, priority = 1000 },
+  { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, -- Syntax highlighting
   { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- Fuzzy finder
   { "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" },},
@@ -83,13 +83,12 @@ require("lazy").setup({
   cmd = { "ToggleTerm" },
   keys = { "<leader>t", "<leader>gg" },
   config = setup_toggleterm,
-  }  -- { "catppuccin/nvim", as = "catppuccin" },
+  }  
 })
 
 -- theme
 vim.g.tokyonight_style = "night"
 vim.cmd.colorscheme("tokyonight")
--- vim.cmd.colorscheme("catppuccin")
 
 -- Treesitter Configuration
 require("nvim-treesitter.configs").setup {
@@ -110,7 +109,6 @@ vim.keymap.set('n', '<leader>o', ':NvimTreeToggle<CR>', { silent = true })
 -- LSP Configuration
 local lspconfig = require("lspconfig")
 lspconfig.pyright.setup {}  -- Python LSP
--- lspconfig.ts_ls.setup {} -- js
 lspconfig.clangd.setup {}   -- C/C++ LSP
 
 -- Autocomplete Configuration
