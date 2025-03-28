@@ -1,7 +1,4 @@
 -- Basic Neovim Settings
--- vim.opt.expandtab = true            -- Use spaces instead of tabs
--- vim.opt.tabstop = 4                 -- Set tab width to 4 spaces
--- vim.opt.shiftwidth = 4              -- Set indentation width to 4 spaces
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.smartindent = true          -- Enable smart indentation
