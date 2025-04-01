@@ -11,7 +11,7 @@ vim.o.smartcase = true
 
 -- Keybindings
 vim.g.mapleader = " "               -- Set leader key to Space
-vim.keymap.set("n", "<leader>q", ":q<CR>", { silent = true }) -- Quit file
+vim.keymap.set("n", "<leader>e", ":q<CR>", { silent = true }) -- Quit file
 vim.keymap.set("n", "<leader>s", ":w<CR>", { silent = true, desc = "Save file" })
 vim.keymap.set("n", "<leader>w", ":wq<CR>", { silent = true, desc = "Save and quit" })
 vim.keymap.set("n", "gr", vim.lsp.buf.references, { silent = true })
