@@ -1,7 +1,10 @@
 -- Basic Neovim Settings
 vim.opt.relativenumber = true
 vim.opt.number = true
-vim.opt.smartindent = true          -- Enable smart indentation
+vim.o.expandtab = true      -- Use spaces instead of tabs
+vim.o.shiftwidth = 2        -- Indent by 2 spaces
+vim.o.tabstop = 2           -- A tab is shown as 2 spaces
+-- vim.opt.smartindent = true          -- Enable smart indentation
 vim.opt.termguicolors = true        -- Enable true colors
 vim.opt.wrap = true -- Enable line wrapping
 vim.opt.clipboard = "unnamedplus"   -- Use system clipboard
@@ -80,7 +83,24 @@ require("lazy").setup({
   cmd = { "ToggleTerm" },
   keys = { "<leader>t", "<leader>gg" },
   config = setup_toggleterm,
-  }  
+  },  
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      require("nvim-autopairs").setup({})
+
+      local cmp_status, cmp = pcall(require, "cmp")
+      if cmp_status then
+        local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+        cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+      end
+    end,
+  },
+  {
+    "justinmk/vim-sneak",
+    event = "VeryLazy",
+  }
 })
 
 -- theme
