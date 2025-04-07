@@ -100,12 +100,38 @@ require("lazy").setup({
   {
     "justinmk/vim-sneak",
     event = "VeryLazy",
+  },
+  {
+    "lewis6991/gitsigns.nvim",
+    event = "InsertEnter", -- only load when you start editing
+    config = function()
+      require("gitsigns").setup({
+        signs = {
+          add          = { text = "+" },
+          change       = { text = "~" },
+          delete       = { text = "_" },
+          topdelete    = { text = "‾" },
+          changedelete = { text = "~" },
+        },
+        current_line_blame = true,
+        current_line_blame_opts = {
+          delay = 1000, -- ms delay before blame appears
+          virt_text_pos = "eol", -- show at end of line
+        },
+    })
+  end,
   }
 })
 
 -- theme
 vim.g.tokyonight_style = "night"
+require("tokyonight").setup({
+  transparent = true
+ })
 vim.cmd.colorscheme("tokyonight")
+
+-- vim-sneak case insensitive
+vim.g["sneak#use_ic_scs"] = 1
 
 -- Treesitter Configuration
 require("nvim-treesitter.configs").setup {
@@ -121,12 +147,14 @@ vim.keymap.set("n", "<leader>f", ":Telescope find_files<CR>", { silent = true })
 vim.keymap.set("n", "<leader>/", ":Telescope live_grep<CR>", { silent = true })
 vim.keymap.set("n", "<leader>r", ":Telescope lsp_references<CR>", { silent = true })
 vim.keymap.set("n", "<leader>d", ":Telescope lsp_definitions<CR>", { silent = true })
+
 vim.keymap.set('n', '<leader>o', ':NvimTreeToggle<CR>', { silent = true })
 
 -- LSP Configuration
 local lspconfig = require("lspconfig")
 lspconfig.pyright.setup {}  -- Python LSP
 lspconfig.clangd.setup {}   -- C/C++ LSP
+lspconfig.ts_ls.setup {}  -- JavaScript/TypeScript LSP
 
 -- Autocomplete Configuration
 local cmp = require("cmp")
