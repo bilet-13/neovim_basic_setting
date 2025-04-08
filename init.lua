@@ -150,6 +150,18 @@ vim.keymap.set("n", "<leader>d", ":Telescope lsp_definitions<CR>", { silent = tr
 
 vim.keymap.set('n', '<leader>o', ':NvimTreeToggle<CR>', { silent = true })
 
+vim.keymap.set("n", "<leader>gb", function()
+  require("gitsigns").blame_line({ full = true })
+end, { desc = "Show full git blame for current line" })
+
+vim.keymap.set("n", "<leader>gr", function()
+  require("gitsigns").reset_hunk()
+end, { desc = "Reset Git hunk" })
+
+vim.keymap.set("n", "<leader>gp", function()
+  require("gitsigns").preview_hunk()
+end, { desc = "preview git hunk diff" })
+
 -- LSP Configuration
 local lspconfig = require("lspconfig")
 lspconfig.pyright.setup {}  -- Python LSP
