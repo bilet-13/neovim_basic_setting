@@ -120,6 +120,10 @@ require("lazy").setup({
         },
     })
   end,
+  },
+  {
+    "github/copilot.vim",
+    event = "InsertEnter"
   }
 })
 
