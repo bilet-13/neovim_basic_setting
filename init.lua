@@ -74,7 +74,18 @@ require("lazy").setup({
   { "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" },},
   { "nvim-lualine/lualine.nvim" }, -- Status line
   { "tpope/vim-commentary" }, -- Comment toggle
-  { "neovim/nvim-lspconfig" }, -- LSP support
+  {
+    "williamboman/mason.nvim",
+    config = true
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    config = true
+  },
+  {
+    "neovim/nvim-lspconfig"
+  },
   { "hrsh7th/nvim-cmp", dependencies = { "hrsh7th/cmp-nvim-lsp" } }, -- Autocomplete
   { "L3MON4D3/LuaSnip" }, -- Snippet support
   {
@@ -167,10 +178,18 @@ vim.keymap.set("n", "<leader>gp", function()
 end, { desc = "preview git hunk diff" })
 
 -- LSP Configuration
+require("mason").setup()
+require("mason-lspconfig").setup({
+  ensure_installed = { "pyright", "clangd", "ts_ls"},
+  automatic_installation = true,
+})
+
 local lspconfig = require("lspconfig")
-lspconfig.pyright.setup {}  -- Python LSP
-lspconfig.clangd.setup {}   -- C/C++ LSP
-lspconfig.ts_ls.setup {}  -- JavaScript/TypeScript LSP
+local servers = { "ts_ls", "pyright", "clangd" }
+
+for _, server in ipairs(servers) do
+  lspconfig[server].setup({})
+end
 
 -- Autocomplete Configuration
 local cmp = require("cmp")
