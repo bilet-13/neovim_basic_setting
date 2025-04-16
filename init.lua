@@ -133,6 +133,23 @@ require("lazy").setup({
   end,
   },
   {
+    "akinsho/flutter-tools.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+      require("flutter-tools").setup({
+        lsp = {
+          settings = {
+            dart = {
+              closingLabels = true,
+            }
+          }
+        }
+      })
+    end,
+  },
+  {
     "github/copilot.vim",
     event = "InsertEnter"
   }
@@ -164,6 +181,7 @@ vim.keymap.set("n", "<leader>r", ":Telescope lsp_references<CR>", { silent = tru
 vim.keymap.set("n", "<leader>d", ":Telescope lsp_definitions<CR>", { silent = true })
 
 vim.keymap.set('n', '<leader>o', ':NvimTreeToggle<CR>', { silent = true })
+vim.keymap.set("n", "<leader>fo", ":FlutterOutlineToggle<CR>", { silent = true, desc = "Toggle Flutter Outline" })
 
 vim.keymap.set("n", "<leader>gb", function()
   require("gitsigns").blame_line({ full = true })
@@ -185,7 +203,7 @@ require("mason-lspconfig").setup({
 })
 
 local lspconfig = require("lspconfig")
-local servers = { "ts_ls", "pyright", "clangd" }
+local servers = { "ts_ls", "pyright", "clangd", "dartls" }
 
 for _, server in ipairs(servers) do
   lspconfig[server].setup({})
