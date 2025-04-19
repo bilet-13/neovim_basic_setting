@@ -68,7 +68,18 @@ end
 
 -- Plugin Setup
 require("lazy").setup({
-  { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
+  -- { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
+  {
+    "navarasu/onedark.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("onedark").setup {
+        style = "warm", -- options: 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light'
+      }
+      require("onedark").load()
+    end,
+  },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, -- Syntax highlighting
   { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- Fuzzy finder
   { "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" },},
@@ -156,11 +167,11 @@ require("lazy").setup({
 })
 
 -- theme
-vim.g.tokyonight_style = "night"
-require("tokyonight").setup({
-  transparent = true
- })
-vim.cmd.colorscheme("tokyonight")
+-- vim.g.tokyonight_style = "night"
+-- require("tokyonight").setup({
+--   -- transparent = true
+--  })
+-- vim.cmd.colorscheme("tokyonight")
 
 -- vim-sneak case insensitive
 vim.g["sneak#use_ic_scs"] = 1
