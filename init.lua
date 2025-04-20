@@ -175,6 +175,8 @@ require("lazy").setup({
 
 -- vim-sneak case insensitive
 vim.g["sneak#use_ic_scs"] = 1
+vim.api.nvim_set_keymap("n", "s", "<Plug>Sneak_s", {})
+vim.api.nvim_set_keymap("n", "S", "<Plug>Sneak_S", {})
 
 -- Treesitter Configuration
 require("nvim-treesitter.configs").setup {
@@ -188,9 +190,10 @@ require("lualine").setup()
 -- Telescope Keybind
 vim.keymap.set("n", "<leader>f", ":Telescope find_files<CR>", { silent = true })
 vim.keymap.set("n", "<leader>/", ":Telescope live_grep<CR>", { silent = true })
-vim.keymap.set("n", "<leader>r", ":Telescope lsp_references<CR>", { silent = true })
+vim.keymap.set("n", "<leader>c", ":Telescope lsp_references<CR>", { silent = true })
 vim.keymap.set("n", "<leader>d", ":Telescope lsp_definitions<CR>", { silent = true })
 
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
 vim.keymap.set('n', '<leader>o', ':NvimTreeToggle<CR>', { silent = true })
 vim.keymap.set("n", "<leader>fo", ":FlutterOutlineToggle<CR>", { silent = true, desc = "Toggle Flutter Outline" })
 
