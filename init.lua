@@ -188,7 +188,7 @@ require("nvim-treesitter.configs").setup {
 require("lualine").setup()
 
 -- Telescope Keybind
-vim.keymap.set("n", "<leader>f", ":Telescope find_files<CR>", { silent = true })
+vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>", { silent = true })
 vim.keymap.set("n", "<leader>/", ":Telescope live_grep<CR>", { silent = true })
 vim.keymap.set("n", "<leader>c", ":Telescope lsp_references<CR>", { silent = true })
 vim.keymap.set("n", "<leader>d", ":Telescope lsp_definitions<CR>", { silent = true })
